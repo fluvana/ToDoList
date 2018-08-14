@@ -1,0 +1,271 @@
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul li {
+  margin-bottom: 0.5em;
+  overflow: hidden;
+  display: flex;
+}
+
+.done-list {
+  color: gray;
+}
+
+.card:hover {
+  cursor: pointer;
+}
+
+.btn-panel {
+  text-align: right;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.btn-panel .search-input {
+  flex: none;
+}
+
+.btn-panel .search-input:focus {
+  box-shadow: none;
+}
+
+.btn-panel button {
+  display: block;
+  flex: none;
+}
+
+.btn-panel .space {
+  flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+}
+
+.task-panel {
+  position: relative;
+}
+
+.task-panel-buttons {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  opacity: 0.7;
+}
+
+.task-panel-buttons .fa-angle-up {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.task-panel-buttons .fas {
+  color: #dae0e5;
+}
+
+.task-panel-buttons .fas:hover {
+  color: #212529;
+}
+
+.card-text {
+  margin-bottom: 0;
+}
+
+.h4-input {
+  font-size: 1.5rem;
+  width: 100%;
+  font-weight: 500;
+  line-height: 1.2;
+  border: none;
+  margin-bottom: .75rem;
+  border-radius: 4px;
+  padding: 0 10px;
+}
+
+.h4-input:hover  {
+  background-color: #f8f9fa;
+}
+
+.p-input {
+  padding: 0 8px;
+  font-size: 16px;
+  font-weight: 400;
+  height: 100%;
+  line-height: 100%;
+  color: #212529;
+  border: none;
+  border-radius: 4px;
+  display: inline;
+  float: left;
+  width: 100%;
+}
+
+
+.item-trash {
+  display: none;
+  color: #dae0e5;
+  line-height: 22px;
+  height: 22px;
+  width: 22px;
+  float: left;
+  margin-left: 10px;
+}
+
+.expanded-task li:hover  .item-trash {
+  display: inline;
+}
+
+.item-trash:hover {
+  color: #212529;
+}
+
+.p-input:focus + .item-trash {
+  display: inline;
+}
+
+.expanded-task li:hover .p-input {
+  background-color: #f8f9fa;
+}
+
+.h4-input:focus, .p-input:focus {
+  outline: none;
+  background-color: #dae0e5!important;
+}
+
+.custom-checkbox {
+	width: 22px;
+	height: 22px;
+  float: left;
+  flex: none;
+}
+
+.custom-checkbox input {
+	display: none;
+}
+
+.custom-checkbox label {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: #f8f9fa;
+	border-radius: 4px;
+	font-size: 12px;
+	text-align: center;
+}
+
+.custom-checkbox label i {
+	display: none;
+}
+
+.custom-checkbox input:checked~label i {
+	padding-top: 6px;
+	display: block;
+}
+
+.custom-checkbox label:hover {
+	cursor: pointer;
+	background-color: #dae0e5;
+}
+
+.item-title-area {
+  float: left;
+  line-height: 22px;
+  height: 22px;
+  margin-left: 7px;
+  flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  display: flex;
+}
+
+.item-title-area p {
+  padding-left: 8px;
+}
+
+.item-add-span {
+    width: 22px;
+    height: 22px;
+    display: block;
+    float: left;
+    font-size: 22px;
+    text-align: center;
+    line-height: 22px;
+    color: #dae0e5;
+}
+
+.emptyMsg {
+  width: 100%;
+  text-align: center;
+}
+
+.close-task {
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 25px;
+}
+
+
+.fa-spinner {
+  -webkit-animation-name: spin;
+  -webkit-animation-duration: 1000ms;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-name: spin;
+  -moz-animation-duration: 1000ms;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+  -ms-animation-name: spin;
+  -ms-animation-duration: 1000ms;
+  -ms-animation-iteration-count: infinite;
+  -ms-animation-timing-function: linear;
+
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@-ms-keyframes spin {
+  from { -ms-transform: rotate(0deg); }
+  to { -ms-transform: rotate(360deg); }
+}
+
+@-moz-keyframes spin {
+  from { -moz-transform: rotate(0deg); }
+  to { -moz-transform: rotate(360deg); }
+}
+
+@-webkit-keyframes spin {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  from {
+    transform:rotate(0deg);
+  }
+  to {
+    transform:rotate(360deg);
+  }
+}
+
+@media (max-width:480px) {
+  .btn-panel {
+    display: block;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .btn-panel button {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+@media (min-width:480px) {
+  .search-input {
+    width: 200px;
+  }
+}

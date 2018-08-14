@@ -1,0 +1,163 @@
+<div class="container tasksList">
+
+    <!-- ВЕРХНЯЯ ПАНЕЛЬ (ПОИСК, КНОПКА "ДОБАВИТЬ") -->
+    <div class="btn-panel">
+      <input class="form-control search-input" placeholder="Поиск..." (input)="search()" [(ngModel)]="searchString">
+      <div class="space"></div>
+      <button type="button" class="btn btn-light" (click)="addTask(); ">Добавить</button>
+    </div>
+    <!-- / ВЕРХНЯЯ ПАНЕЛЬ (ПОИСК, КНОПКА "ДОБАВИТЬ") -->
+
+    <div class="card-columns">
+      <ng-template ngFor let-task [ngForOf]="tasks">
+        <div *ngIf="task.visible" class="card card-body"  (click)="taskOnClick(task, $event)" data-id="{{task.id}}">
+            <!-- НЕРАЗВЕРНУТАЯ КАРТОЧКА -->
+            <div class="short-task" *ngIf="!task.expanded">
+              <h4 class="card-title">{{task.title}}</h4>
+
+
+              <div *ngIf="(task.items.length == 0); else doneList" class="emptyMsg">
+                Пустой список
+              </div>
+
+              <ng-template #doneList>
+                <div *ngIf="(task.items.length-getDoneItemsCount(task))==0" class="emptyMsg">
+                  Всё сделано!
+                </div>
+              </ng-template>
+
+
+
+              <!-- СПИСОК НЕРАЗВЕРНУТОЙ КАРТОЧКИ (ПРОСТО ТЕКСТ, ТОЛЬКО НЕСДЕЛАННЫЕ ЭЛЕМЕНТЫ) -->
+              <ul>
+                <ng-template ngFor let-item [ngForOf]="task.items">
+                  <li *ngIf="item.done==0">
+
+                    <!-- КАСТОМНЫЕ ЧЕКБОКСЫ (НЕВЫДЕЛЕННЫЕ) -->
+                    <div class="custom-checkbox" data-target="checkbox">
+                    	<input type="checkbox" [attr.id]="'cc-'+item.id">
+                    	<label [attr.for]="'cc-'+item.id"  (click)="checkboxOnClick(item, task)">
+                        <i class="fas fa-check"></i>
+                      </label>
+                    </div>
+                    <!-- / КАСТОМНЫЕ ЧЕКБОКСЫ (НЕВЫДЕЛЕННЫЕ) -->
+
+                    <div class="item-title-area">
+                      <p>{{item.title}}</p>
+                    </div>
+                  </li>
+                </ng-template>
+              </ul>
+              <!-- / СПИСОК НЕРАЗВЕРНУТОЙ КАРТОЧКИ (ПРОСТО ТЕКСТ, ТОЛЬКО НЕСДЕЛАННЫЕ ЭЛЕМЕНТЫ) -->
+
+            </div>
+            <!-- / НЕРАЗВЕРНУТАЯ КАРТОЧКА -->
+
+
+
+            <!-- РАЗВЕРНУТАЯ КАРТОЧКА -->
+            <div class="expanded-task" *ngIf="task.expanded">
+              <input [(ngModel)]="task.title" class="h4-input" (focusout)="taskRename(task)" (keyup.enter)="taskRename(task); $event.target.blur(); ">
+
+              <div *ngIf="(task.items.length == 0); else doneList" class="emptyMsg">
+                Пустой список
+              </div>
+
+              <ng-template #doneList>
+                <div *ngIf="(task.items.length-getDoneItemsCount(task))==0" class="emptyMsg">
+                  Всё сделано!
+                </div>
+              </ng-template>
+
+
+              <!-- СПИСОК НЕСДЕЛАННЫХ ЭЛЕМЕНТОВ РАЗВЕРНУТОЙ КАРТОЧКИ -->
+              <ul>
+                <ng-template ngFor let-item [ngForOf]="task.items">
+                  <li *ngIf="item.done==0">
+
+                    <!-- КАСТОМНЫЕ ЧЕКБОКСЫ (НЕВЫДЕЛЕННЫЕ) -->
+                    <div class="custom-checkbox" data-target="checkbox">
+                    	<input type="checkbox" [attr.id]="'cc-'+item.id">
+                    	<label [attr.for]="'cc-'+item.id"  (click)="checkboxOnClick(item, task)">
+                        <i class="fas fa-check"></i>
+                      </label>
+                    </div>
+                    <!-- / КАСТОМНЫЕ ЧЕКБОКСЫ (НЕВЫДЕЛЕННЫЕ) -->
+
+                    <div class="item-title-area">
+                      <input [(ngModel)]="item.title" class="p-input" (focusout)="itemRename(item, task)" (keyup.enter)="itemRename(item, task); $event.target.blur(); ">
+                      <i class="fas fa-trash item-trash" (click)="deleteItem(item, task)" title="Удалить элемент списка"></i>
+                    </div>
+                  </li>
+                </ng-template>
+
+
+                <!-- ДОБАВИТЬ НОВЫЙ ЭЛЕМЕНТ СПИСКА -->
+                <li class="item-add">
+                  <span class="item-checkbox item-add-span">
+                    <i class="fas fa-plus-square"></i>
+                  </span>
+                  <div class="item-title-area">
+                    <input class="p-input" (focusout)="addItem(task, $event);" (keyup.enter)="addItem(task, $event); $event.target.blur(); ">
+                  </div>
+                </li>
+                <!-- / ДОБАВИТЬ НОВЫЙ ЭЛЕМЕНТ СПИСКА -->
+
+
+              </ul>
+              <!-- / СПИСОК НЕСДЕЛАННЫХ ЭЛЕМЕНТОВ РАЗВЕРНУТОЙ КАРТОЧКИ -->
+
+
+
+              <h6>Сделано</h6>
+              <div *ngIf="(getDoneItemsCount(task))==0" class="emptyMsg">
+                Еще ничего не сделано
+              </div>
+
+
+              <!-- СПИСОК СДЕЛАННЫХ ЭЛЕМЕНТОВ РАЗВЕРНУТОЙ КАРТОЧКИ -->
+              <ul class="done-list">
+                <ng-template ngFor let-item [ngForOf]="task.items">
+                  <li *ngIf="item.done==1">
+
+                    <!-- КАСТОМНЫЕ ЧЕКБОКСЫ (ВЫДЕЛЕННЫЕ) -->
+                    <div class="custom-checkbox" data-target="checkbox">
+                    	<input type="checkbox" [attr.id]="'cc-'+item.id" checked>
+                    	<label [attr.for]="'cc-'+item.id"  (click)="checkboxOnClick(item, task)">
+                        <i class="fas fa-check"></i>
+                      </label>
+                    </div>
+                    <!-- / КАСТОМНЫЕ ЧЕКБОКСЫ (ВЫДЕЛЕННЫЕ) -->
+
+
+                    <div class="item-title-area">
+                      <input [(ngModel)]="item.title" class="p-input"  (focusout)="itemRename(item, task)" (keyup.enter)="itemRename(item, task); $event.target.blur(); ">
+                      <i class="fas fa-trash item-trash" (click)="deleteItem(item, task)" title="Удалить элемент списка"></i>
+                    </div>
+                  </li>
+                </ng-template>
+              </ul>
+              <!-- / СПИСОК СДЕЛАННЫХ ЭЛЕМЕНТОВ РАЗВЕРНУТОЙ КАРТОЧКИ -->
+
+
+            </div>
+            <!-- / РАЗВЕРНУТАЯ КАРТОЧКА -->
+
+
+            <!--  НИЖНЯЯ ПАНЕЛЬ КАРТОЧКИ -->
+            <div class="task-panel" >
+              <small class="text-muted">
+                <span *ngIf="!task.loading">Изменено {{translateDate(task.modified)}}</span>
+                <i *ngIf="task.loading" class="fas fa-spinner"></i>
+              </small>
+              <div class="task-panel-buttons" *ngIf="task.expanded">
+                <i class="fas fa-angle-up" title="Свернуть список" (click)="toggleTask(task)"></i>
+                <i class="fas fa-trash" title="Удалить список" (click)="deleteTask(task)"></i>
+              </div>
+            </div>
+            <!--  / НИЖНЯЯ ПАНЕЛЬ КАРТОЧКИ -->
+
+        </div>
+      </ng-template>
+    </div>
+</div>
